@@ -103,9 +103,23 @@
 <script>
     const codeInput = document.getElementById("code-input");
     const previewIframe = document.getElementById("preview-iframe");
+    const clearBtn = document.getElementById("clear-btn"); // 获取清除按钮
+    const runBtn = document.getElementById("run-btn"); // 获取运行按钮
 
-    // 当代码输入框内容发生变化时自动更新预览
+    // 自动更新预览
     codeInput.addEventListener("input", () => {
+        const codeWithCacheBuster = codeInput.value.replace(/src="(.+?)"/g, 'src="$1?' + new Date().getTime() + '"');
+        previewIframe.srcdoc = codeWithCacheBuster;
+    });
+
+    // 清除按钮功能：清空代码输入框和预览
+    clearBtn.addEventListener("click", () => {
+        codeInput.value = ""; // 清空代码输入框
+        previewIframe.srcdoc = ""; // 清空预览区
+    });
+
+    // 运行按钮功能：手动刷新预览区
+    runBtn.addEventListener("click", () => {
         const codeWithCacheBuster = codeInput.value.replace(/src="(.+?)"/g, 'src="$1?' + new Date().getTime() + '"');
         previewIframe.srcdoc = codeWithCacheBuster;
     });
@@ -115,6 +129,7 @@
         previewIframe.srcdoc = codeInput.value;
     });
 </script>
+
 
 </body>
 </html>
