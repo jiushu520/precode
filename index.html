@@ -99,31 +99,21 @@
         </div>
     </div>
 
-    <script>
-        const runButton = document.getElementById("run-btn");
-        const clearButton = document.getElementById("clear-btn");
-        const codeInput = document.getElementById("code-input");
-        const previewIframe = document.getElementById("preview-iframe");
+<script>
+    const codeInput = document.getElementById("code-input");
+    const previewIframe = document.getElementById("preview-iframe");
 
-        // 运行代码并将其插入 iframe 中，添加清理缓存逻辑
-        runButton.addEventListener("click", () => {
-            // 替换代码中的 src，强制更新缓存
-            const codeWithCacheBuster = codeInput.value.replace(/src="(.+?)"/g, 'src="$1?' + new Date().getTime() + '"');
-            // 使用 srcdoc 更新 iframe 内容
-            previewIframe.srcdoc = codeWithCacheBuster;
-        });
+    // 当代码输入框内容发生变化时自动更新预览
+    codeInput.addEventListener("input", () => {
+        const codeWithCacheBuster = codeInput.value.replace(/src="(.+?)"/g, 'src="$1?' + new Date().getTime() + '"');
+        previewIframe.srcdoc = codeWithCacheBuster;
+    });
 
-        // 清除代码
-        clearButton.addEventListener("click", () => {
-            codeInput.value = '';
-            previewIframe.srcdoc = '';
-        });
-
-        // 初次加载时自动运行代码
-        window.addEventListener("load", () => {
-            previewIframe.srcdoc = codeInput.value;
-        });
-    </script>
+    // 页面加载时初始化 iframe 的内容
+    window.addEventListener("load", () => {
+        previewIframe.srcdoc = codeInput.value;
+    });
+</script>
 
 </body>
 </html>
